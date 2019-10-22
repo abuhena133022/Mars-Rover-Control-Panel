@@ -1,0 +1,48 @@
+int ctrl[50];
+void setup() 
+{
+  Serial.begin(9600);
+  for(int i = 0; i<50; i++)
+  {
+    ctrl[i] = random(10,99);
+  }
+}
+
+void loop() 
+{
+  
+  if(Serial.available() > 0)
+  {
+    String signalStr = Serial.readString();
+    if(signalStr == "m0f")
+    {
+      Serial.println("m0fFrontSignal");
+      Serial.println("swcondddd");
+    }
+    if(signalStr == "m0c01xR")
+    {
+      String m0c01Rspns = "m0c01";
+      m0c01Rspns+= ctrl[2];
+      m0c01Rspns+= "*";
+      m0c01Rspns+= ctrl[3];
+      m0c01Rspns+= ">";
+      Serial.println(m0c01Rspns);
+    }
+    if(signalStr == "m0c02xR")
+    {
+      String m0c02Rspns = "m0c02";
+      m0c02Rspns+= ctrl[2];
+      m0c02Rspns+= ">";
+      Serial.println(m0c02Rspns);
+    }  
+  }
+  String responseStr = "a00";
+    responseStr += ctrl[10];
+    responseStr += "*";
+    responseStr += ctrl[11];
+    responseStr += ">";
+    Serial.println(responseStr);
+  ctrl[10] = random(10,99);
+  ctrl[11] = random(10,99);
+  delay(1000);
+}
